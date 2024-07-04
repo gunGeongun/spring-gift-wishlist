@@ -27,7 +27,9 @@ public class UserController {
         return "register_form";
     }
 
-    // 로그인
+    /*
+    로그인
+     */
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<?> login(
@@ -41,7 +43,9 @@ public class UserController {
         }
     }
 
-    // 회원가입
+    /*
+    회원가입
+     */
     @PostMapping("/register")
     @ResponseBody
     public ResponseEntity<String> register(
