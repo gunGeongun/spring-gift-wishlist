@@ -18,6 +18,11 @@ public class UserRepository {
         String sql = "SELECT * FROM users WHERE email = ?";
         return jdbcTemplate.query(sql, new Object[]{email}, new UserRowMapper()).stream().findFirst();
     }
+    public User findById(Long id) {
+        String sql = "SELECT * FROM users WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new UserRowMapper());
+    }
+
 
     public void save(User user) {
         String sql = "INSERT INTO users (email, password) VALUES (?, ?)";
@@ -33,6 +38,7 @@ public class UserRepository {
         String sql = "SELECT * FROM users WHERE token = ?";
         return jdbcTemplate.query(sql, new Object[]{token}, new UserRowMapper()).stream().findFirst();
     }
+
 
     private static final class UserRowMapper implements RowMapper<User> {
         @Override
