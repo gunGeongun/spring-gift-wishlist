@@ -1,5 +1,6 @@
 package gift.controller;
 import gift.model.User;
+import gift.model.UserRequest;
 import gift.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,10 +33,9 @@ public class UserController {
      */
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<?> login(
-            @RequestParam String email,
-            @RequestParam String password) {
-        Optional<String> token = userService.login(email, password);
+    public ResponseEntity<?> login(@RequestBody UserRequest userRequest) {
+
+        Optional<String> token = userService.login(userRequest.getEmail(), userRequest.getPassword());
         if (token.isPresent()) {
             return ResponseEntity.ok(Map.of("accessToken", token.get()));
         } else {
@@ -48,12 +48,10 @@ public class UserController {
      */
     @PostMapping("/register")
     @ResponseBody
-    public ResponseEntity<String> register(
-            @RequestParam String email,
-            @RequestParam String password) {
+    public ResponseEntity<String> register(@RequestBody UserRequest userRequest) {
         User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
+        user.setEmail(userRequest.getEmail());
+        user.setPassword(userRequest.getPassword());
         boolean registered = userService.register(user);
         if (registered) {
             return ResponseEntity.ok("회원가입이 정상적으로 완료되었습니다.");
